@@ -2,6 +2,7 @@ package com.example.inventariobp.controller;
 
 import com.example.inventariobp.model.ProductDTO;
 import com.example.inventariobp.model.Response;
+import com.example.inventariobp.model.vo.ProductVO;
 import com.example.inventariobp.service.interfaces.IProductService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -42,7 +43,7 @@ public class ProductController {
     public ResponseEntity<Response> getAllProducts() {
         Response response = new Response();
         try {
-            List<ProductDTO> result = productService.getAllProducts();
+            List<ProductVO> result = productService.getAllProducts();
             response.setMessage(String.valueOf(result.size()).concat(" Registros encontrados"));
             response.setAuto(result);
         } catch (Exception e) {
@@ -61,6 +62,21 @@ public class ProductController {
             ProductDTO result = productService.saveProduct(dto);
             response.setAuto(result);
             response.setStatus(HttpStatus.CREATED);
+        } catch (Exception e) {
+            response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+            response.setMessage(e.getMessage());
+            response.setError(true);
+        }
+        return new ResponseEntity<>(response, new HttpHeaders(), HttpStatus.OK);
+    }
+
+    @ApiOperation("Update stock of a product")
+    @PutMapping(value = "updateStockProduct", headers = "Accept=application/json;charset=UTF-8")
+    public ResponseEntity<Response> updateStockProduct(@RequestBody ProductDTO dto) {
+        Response response = new Response();
+        try {
+            ProductDTO result = productService.updateStockProduct(dto.getId(), dto.getStock());
+            response.setAuto(result);
         } catch (Exception e) {
             response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
             response.setMessage(e.getMessage());

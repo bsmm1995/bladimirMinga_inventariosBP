@@ -1,7 +1,6 @@
 package com.example.inventariobp.service;
 
 import com.example.inventariobp.model.CustomerDTO;
-import com.example.inventariobp.model.StoreDTO;
 import com.example.inventariobp.repository.ICustomerRepository;
 import com.example.inventariobp.service.interfaces.ICustomerService;
 import lombok.AllArgsConstructor;
