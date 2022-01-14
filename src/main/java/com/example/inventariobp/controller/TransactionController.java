@@ -1,19 +1,34 @@
 package com.example.inventariobp.controller;
 
-import com.example.inventariobp.model.Response;
+import com.example.inventariobp.model.CustomerDTO;
 import com.example.inventariobp.model.TransactionDTO;
 import com.example.inventariobp.model.TransactionDetailDTO;
+import com.example.inventariobp.model.vo.ReportDetailVO;
+import com.example.inventariobp.model.vo.Response;
 import com.example.inventariobp.service.interfaces.ITransactionDetailService;
 import com.example.inventariobp.service.interfaces.ITransactionService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVPrinter;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Api("Apis that manage the transactions")
@@ -151,5 +166,48 @@ public class TransactionController {
             response.setError(true);
         }
         return new ResponseEntity<>(response, new HttpHeaders(), HttpStatus.OK);
+    }
+
+    /**
+     * Endpoints to get data for reports
+     */
+
+    @ApiOperation("Generate CSV report")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "clienteDNI", value = "Customer's DNI", required = true, dataType = "String", example = "1100124567"),
+            @ApiImplicitParam(name = "startDate", value = "Start date of the report", required = true, dataType = "Date", example = "2022-01-01 00:00:00"),
+            @ApiImplicitParam(name = "endDate", value = "End date of the report", required = true, dataType = "Date", example = "2022-02-01 23:59:59")
+    })
+    @GetMapping(value = "reports/generateCSVReport")
+    public ResponseEntity generateCSVReport(@RequestParam String clienteDNI, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date startDate, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate) {
+        HttpHeaders headers = new HttpHeaders();
+        ByteArrayInputStream byteArrayOutputStream = null;
+        String[] csvHeader = {"Transaction ID", "Date", "Store", "Product code", "Product name", "Price", "Quantity", "Total"};
+        try (
+                ByteArrayOutputStream out = new ByteArrayOutputStream();
+                CSVPrinter csvPrinter = new CSVPrinter(new PrintWriter(out), CSVFormat.DEFAULT.withRecordSeparator("\n"));
+        ) {
+            Map<String, Object> result = transactionService.getDataForCSVReport(clienteDNI, startDate, endDate);
+            csvPrinter.printRecord("DNI:", clienteDNI);
+            csvPrinter.printRecord("Customer:", ((CustomerDTO) result.get("customer")).getName());
+            csvPrinter.printRecord("Date range:", startDate.toString().concat(" to ").concat(endDate.toString()));
+            csvPrinter.printRecord();
+            csvPrinter.printRecord(csvHeader);
+            for (ReportDetailVO row : (List<ReportDetailVO>) result.get("detail"))
+                csvPrinter.printRecord(row.getTransactionId(), new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(row.getDate()), row.getStore(), row.getProductCode(), row.getProductName(), row.getPrice(), row.getQuantity(), row.getTotal());
+            csvPrinter.flush();
+            byteArrayOutputStream = new ByteArrayInputStream(out.toByteArray());
+            csvPrinter.flush();
+        } catch (Exception e) {
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            return new ResponseEntity<>(new Response(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), true, null), new HttpHeaders(), HttpStatus.OK);
+        }
+
+        InputStreamResource fileInputStream = new InputStreamResource(byteArrayOutputStream);
+        String csvFileName = "Transactions-report-".concat(new Date().toString()).concat(".csv");
+        headers.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + csvFileName);
+        headers.set(HttpHeaders.CONTENT_TYPE, "text/csv");
+
+        return new ResponseEntity<>(fileInputStream, headers, HttpStatus.OK);
     }
 }

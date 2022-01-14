@@ -1,9 +1,10 @@
 package com.example.inventariobp.controller;
 
 import com.example.inventariobp.model.ProductDTO;
-import com.example.inventariobp.model.Response;
+import com.example.inventariobp.model.vo.Response;
 import com.example.inventariobp.model.StoreDTO;
 import com.example.inventariobp.model.StoreProductDTO;
+import com.example.inventariobp.model.vo.OrderVO;
 import com.example.inventariobp.service.interfaces.IStoreProductService;
 import com.example.inventariobp.service.interfaces.IStoreService;
 import io.swagger.annotations.Api;
@@ -93,7 +94,7 @@ public class StoreController {
      */
 
     @ApiOperation("Find a product assignment to the store by ID")
-    //@GetMapping(value = "store-product/getStoreProduct/{id}")
+    @GetMapping(value = "store-product/getStoreProduct/{id}")
     public ResponseEntity<Response> getStoreProduct(@PathVariable("id") Long id) {
         Response response = new Response();
         try {
@@ -108,7 +109,7 @@ public class StoreController {
     }
 
     @ApiOperation("Find all product assignments to the store")
-   // @GetMapping(value = "store-product/getAllProductsByStore/{stroreId}")
+    @GetMapping(value = "store-product/getAllProductsByStore/{stroreId}")
     public ResponseEntity<Response> getAllProductsByStore(@PathVariable("stroreId") Long stroreId) {
         Response response = new Response();
         try {
@@ -124,7 +125,7 @@ public class StoreController {
     }
 
     @ApiOperation("Create or update a product assignment to the store")
-    //@PostMapping(value = "store-product/saveStoreProduct", headers = "Accept=application/json;charset=UTF-8")
+    @PostMapping(value = "store-product/saveStoreProduct", headers = "Accept=application/json;charset=UTF-8")
     public ResponseEntity<Response> saveStoreProduct(@RequestBody StoreProductDTO dto) {
         Response response = new Response();
         try {
@@ -140,12 +141,32 @@ public class StoreController {
     }
 
     @ApiOperation("Delete a product assignment to the store")
-    //@DeleteMapping("store-product/deleteStoreProduct/{id}")
+    @DeleteMapping("store-product/deleteStoreProduct/{id}")
     public ResponseEntity<Response> deleteStoreProduct(@PathVariable("id") Long id) {
         Response response = new Response();
         try {
             Long result = storeProductService.deleteStoreProduct(id);
             response.setAuto(result);
+        } catch (Exception e) {
+            response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+            response.setMessage(e.getMessage());
+            response.setError(true);
+        }
+        return new ResponseEntity<>(response, new HttpHeaders(), HttpStatus.OK);
+    }
+
+    /**
+     * Apis to manage orders
+     */
+
+    @ApiOperation("Place an order")
+    @PostMapping(value = "orders/placeOrder", headers = "Accept=application/json;charset=UTF-8")
+    public ResponseEntity<Response> placeOrder(@RequestBody OrderVO data) {
+        Response response = new Response();
+        try {
+            Boolean result = storeService.placeOrder(data);
+            response.setAuto(result);
+            response.setStatus(HttpStatus.CREATED);
         } catch (Exception e) {
             response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
             response.setMessage(e.getMessage());
