@@ -1,11 +1,10 @@
 package com.example.inventariobp.controller;
 
-import com.example.inventariobp.model.ProductDTO;
 import com.example.inventariobp.model.Response;
-import com.example.inventariobp.model.StoreDTO;
-import com.example.inventariobp.model.StoreProductDTO;
-import com.example.inventariobp.service.interfaces.IStoreProductService;
-import com.example.inventariobp.service.interfaces.IStoreService;
+import com.example.inventariobp.model.TransactionDTO;
+import com.example.inventariobp.model.TransactionDetailDTO;
+import com.example.inventariobp.service.interfaces.ITransactionDetailService;
+import com.example.inventariobp.service.interfaces.ITransactionService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -17,21 +16,21 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@Api("Apis that manage the stores")
+@Api("Apis that manage the transactions")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/v1/store")
-public class StoreController {
+@RequestMapping("/v1/transaction")
+public class TransactionController {
 
-    private final IStoreService storeService;
-    private final IStoreProductService storeProductService;
+    private final ITransactionService transactionService;
+    private final ITransactionDetailService transactionDetailService;
 
-    @ApiOperation("Find a store by ID")
-    @GetMapping(value = "getStore/{id}")
-    public ResponseEntity<Response> getStore(@PathVariable("id") Long id) {
+    @ApiOperation("Find a transaction by ID")
+    @GetMapping(value = "getTransaction/{id}")
+    public ResponseEntity<Response> getTransaction(@PathVariable("id") Long id) {
         Response response = new Response();
         try {
-            Optional<StoreDTO> result = storeService.getStore(id);
+            Optional<TransactionDTO> result = transactionService.getTransaction(id);
             response.setAuto(result);
         } catch (Exception e) {
             response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -41,12 +40,12 @@ public class StoreController {
         return new ResponseEntity<>(response, new HttpHeaders(), HttpStatus.OK);
     }
 
-    @ApiOperation("Find all stores")
-    @GetMapping(value = "getAllStores")
-    public ResponseEntity<Response> getAllStores() {
+    @ApiOperation("Find all transactions")
+    @GetMapping(value = "getAllTransactions")
+    public ResponseEntity<Response> getAllTransactions() {
         Response response = new Response();
         try {
-            List<StoreDTO> result = storeService.getAllStores();
+            List<TransactionDTO> result = transactionService.getAllTransactions();
             response.setMessage(String.valueOf(result.size()).concat(" Registros encontrados"));
             response.setAuto(result);
         } catch (Exception e) {
@@ -57,12 +56,12 @@ public class StoreController {
         return new ResponseEntity<>(response, new HttpHeaders(), HttpStatus.OK);
     }
 
-    @ApiOperation("Create or update a store")
-    @PostMapping(value = "saveStore", headers = "Accept=application/json;charset=UTF-8")
-    public ResponseEntity<Response> saveStore(@RequestBody StoreDTO dto) {
+    @ApiOperation("Create or update a transaction")
+    @PostMapping(value = "saveTransaction", headers = "Accept=application/json;charset=UTF-8")
+    public ResponseEntity<Response> saveTransaction(@RequestBody TransactionDTO dto) {
         Response response = new Response();
         try {
-            StoreDTO result = storeService.saveStore(dto);
+            TransactionDTO result = transactionService.saveTransaction(dto);
             response.setAuto(result);
             response.setStatus(HttpStatus.CREATED);
         } catch (Exception e) {
@@ -73,12 +72,12 @@ public class StoreController {
         return new ResponseEntity<>(response, new HttpHeaders(), HttpStatus.OK);
     }
 
-    @ApiOperation("Delete a store")
-    @DeleteMapping("deleteStore/{id}")
-    public ResponseEntity<Response> deleteStore(@PathVariable("id") Long id) {
+    @ApiOperation("Delete a transaction")
+    @DeleteMapping("deleteTransaction/{id}")
+    public ResponseEntity<Response> deleteTransaction(@PathVariable("id") Long id) {
         Response response = new Response();
         try {
-            Long result = storeService.deleteStore(id);
+            Long result = transactionService.deleteTransaction(id);
             response.setAuto(result);
         } catch (Exception e) {
             response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -89,15 +88,15 @@ public class StoreController {
     }
 
     /**
-     * Apis to manage products in stores
+     * Endpoints to manage transaction details
      */
 
-    @ApiOperation("Find a product assignment to the store by ID")
-    //@GetMapping(value = "store-product/getStoreProduct/{id}")
-    public ResponseEntity<Response> getStoreProduct(@PathVariable("id") Long id) {
+    @ApiOperation("Find a transaction detail by ID")
+    @GetMapping(value = "detail/getTransactionDetail/{id}")
+    public ResponseEntity<Response> getTransactionDetail(@PathVariable("id") Long id) {
         Response response = new Response();
         try {
-            Optional<StoreProductDTO> result = storeProductService.getStoreProduct(id);
+            Optional<TransactionDetailDTO> result = transactionDetailService.getTransactionDetail(id);
             response.setAuto(result);
         } catch (Exception e) {
             response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -107,12 +106,12 @@ public class StoreController {
         return new ResponseEntity<>(response, new HttpHeaders(), HttpStatus.OK);
     }
 
-    @ApiOperation("Find all product assignments to the store")
-   // @GetMapping(value = "store-product/getAllProductsByStore/{stroreId}")
-    public ResponseEntity<Response> getAllProductsByStore(@PathVariable("stroreId") Long stroreId) {
+    @ApiOperation("Find all transactions detail")
+    @GetMapping(value = "detail/getAllTransactionsDetail")
+    public ResponseEntity<Response> getAllTransactionsDetail() {
         Response response = new Response();
         try {
-            List<ProductDTO> result = storeProductService.getAllProductsByStore(stroreId);
+            List<TransactionDetailDTO> result = transactionDetailService.getAllTransactionsDetail();
             response.setMessage(String.valueOf(result.size()).concat(" Registros encontrados"));
             response.setAuto(result);
         } catch (Exception e) {
@@ -123,12 +122,12 @@ public class StoreController {
         return new ResponseEntity<>(response, new HttpHeaders(), HttpStatus.OK);
     }
 
-    @ApiOperation("Create or update a product assignment to the store")
-    //@PostMapping(value = "store-product/saveStoreProduct", headers = "Accept=application/json;charset=UTF-8")
-    public ResponseEntity<Response> saveStoreProduct(@RequestBody StoreProductDTO dto) {
+    @ApiOperation("Create or update a transaction detail")
+    @PostMapping(value = "detail/saveTransactionDetail", headers = "Accept=application/json;charset=UTF-8")
+    public ResponseEntity<Response> saveTransactionDetail(@RequestBody TransactionDetailDTO dto) {
         Response response = new Response();
         try {
-            StoreProductDTO result = storeProductService.saveStoreProduct(dto);
+            TransactionDetailDTO result = transactionDetailService.saveTransactionDetail(dto);
             response.setAuto(result);
             response.setStatus(HttpStatus.CREATED);
         } catch (Exception e) {
@@ -139,12 +138,12 @@ public class StoreController {
         return new ResponseEntity<>(response, new HttpHeaders(), HttpStatus.OK);
     }
 
-    @ApiOperation("Delete a product assignment to the store")
-    //@DeleteMapping("store-product/deleteStoreProduct/{id}")
-    public ResponseEntity<Response> deleteStoreProduct(@PathVariable("id") Long id) {
+    @ApiOperation("Delete a transaction detail")
+    @DeleteMapping("detail/deleteTransactionDetail/{id}")
+    public ResponseEntity<Response> deleteTransactionDetail(@PathVariable("id") Long id) {
         Response response = new Response();
         try {
-            Long result = storeProductService.deleteStoreProduct(id);
+            Long result = transactionDetailService.deleteTransactionDetail(id);
             response.setAuto(result);
         } catch (Exception e) {
             response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);

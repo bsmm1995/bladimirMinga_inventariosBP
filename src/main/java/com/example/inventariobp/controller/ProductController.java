@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@Api("Apis that manage the stores")
+@Api("Apis that manage the products")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/v1/product")

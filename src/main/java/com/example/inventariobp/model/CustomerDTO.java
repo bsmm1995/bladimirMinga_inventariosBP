@@ -2,11 +2,7 @@ package com.example.inventariobp.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -28,9 +24,11 @@ public class CustomerDTO {
     private Long id;
 
     @ApiModelProperty("Customer name")
+    @Column(name = "name", nullable = false)
     private String name;
 
     @ApiModelProperty("Customer identification")
+    @Column(name = "dni", nullable = false)
     private String dni;
 
     @ApiModelProperty("Customer picture")

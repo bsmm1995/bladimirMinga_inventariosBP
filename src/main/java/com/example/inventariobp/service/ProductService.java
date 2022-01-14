@@ -27,8 +27,8 @@ public class ProductService implements IProductService {
 
     @Override
     public List<ProductVO> getAllProducts() {
-        Query nativeQuery = entityManager.createNativeQuery("SELECT cod, name FROM Product");
-        List<Object[]> results = nativeQuery.getResultList();
+        Query query = entityManager.createNativeQuery("SELECT cod, name FROM Product");
+        List<Object[]> results = query.getResultList();
         return results
                 .stream()
                 .map(result -> new ProductVO((String) result[0], (String) result[1]))

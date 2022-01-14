@@ -32,4 +32,8 @@ public class StoreDTO {
 
     @ApiModelProperty("Store name")
     private String name;
+
+    @ApiModelProperty("Store name")
+    @Column(name = "is_main")
+    private Boolean isMain;
 }
