@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -40,7 +41,7 @@ public class StoreProductService implements IStoreProductService {
         List<Object[]> results = query.getResultList();
         return results
                 .stream()
-                .map(result -> new ProductDTO((Long) result[0], (String) result[1], (String) result[2], (Double) result[3], (Double) result[4]))
+                .map(result -> new ProductDTO(((BigInteger) result[0]).longValue(), (String) result[1], (String) result[2], (Double) result[3], (Double) result[4]))
                 .collect(Collectors.toList());
     }
 

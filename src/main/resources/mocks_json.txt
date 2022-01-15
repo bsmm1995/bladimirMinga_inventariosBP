@@ -1,0 +1,170 @@
+GET all CUSTOMERS:
+[
+   {
+      "id":1,
+      "name":"Bladimir Minga",
+      "dni":"1900875321",
+      "picture":"https://d500.epimg.net/cincodias/imagenes/2016/07/04/lifestyle/1467646262_522853_1467646344_noticia_normal.jpg"
+   },
+   {
+      "id":2,
+      "name":"Matias Minga",
+      "dni":"1100875322",
+      "picture":"https://d500.epimg.net/cincodias/imagenes/2016/07/04/lifestyle/1467646262_522853_1467646344_noticia_normal.jpg"
+   }
+]
+
+GET ALL PRODUCTS
+{
+   "prods":[
+      {
+         "id":1,
+         "cod":"prod-1",
+         "name":"prod-name-1",
+         "price":5.5,
+         "stock":10
+      },
+      {
+         "id":2,
+         "cod":"prod-2",
+         "name":"prod-name-2",
+         "price":6,
+         "stock":5
+      },
+      {
+         "id":3,
+         "cod":"prod-3",
+         "name":"prod-name-3",
+         "price":7.5,
+         "stock":15
+      },
+      {
+         "id":4,
+         "cod":"prod-4",
+         "name":"prod-name-4",
+         "price":2.5,
+         "stock":20
+      },
+      {
+         "id":5,
+         "cod":"prod-5",
+         "name":"prod-name-5",
+         "price":9.5,
+         "stock":25
+      },
+      {
+         "id":6,
+         "cod":"prod-6",
+         "name":"prod-name-6",
+         "price":1.5,
+         "stock":0
+      }
+   ]
+}
+
+GET ALL TRANSACTIONS
+[
+   {
+      "id":1,
+      "storeId":1,
+      "customerId":1,
+      "date":1642078800000,
+      "total":32,
+      "detail":[
+
+      ]
+   },
+   {
+      "id":2,
+      "storeId":2,
+      "customerId":2,
+      "date":1642080600000,
+      "total":17,
+      "detail":[
+
+      ]
+   }
+]
+
+GET ALL TRANSACTIONS DETAIL
+[
+   {
+      "id":1,
+      "transactionId":1,
+      "productId":2,
+      "quantity":5,
+      "price":3
+   },
+   {
+      "id":2,
+      "transactionId":1,
+      "productId":4,
+      "quantity":4,
+      "price":2
+   },
+   {
+      "id":3,
+      "transactionId":1,
+      "productId":6,
+      "quantity":1,
+      "price":9
+   },
+   {
+      "id":4,
+      "transactionId":2,
+      "productId":1,
+      "quantity":6,
+      "price":1.5
+   },
+   {
+      "id":5,
+      "transactionId":2,
+      "productId":3,
+      "quantity":2,
+      "price":4
+   }
+]
+
+GET ALL STORE-PRODUCTS
+[
+   {
+      "storeId":1,
+      "productId":1
+   },
+   {
+      "storeId":1,
+      "productId":2
+   },
+   {
+      "storeId":1,
+      "productId":4
+   },
+   {
+      "storeId":1,
+      "productId":6
+   },
+   {
+      "storeId":2,
+      "productId":1
+   },
+   {
+      "storeId":2,
+      "productId":3
+   },
+   {
+      "storeId":3,
+      "productId":2
+   },
+   {
+      "storeId":3,
+      "productId":5
+   },
+   {
+      "storeId":4,
+      "productId":1
+   },
+   {
+      "storeId":4,
+      "productId":6
+   }
+]

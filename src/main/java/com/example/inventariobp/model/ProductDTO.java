@@ -16,11 +16,9 @@ import javax.persistence.*;
 @Table(name = "Product")
 public class ProductDTO {
 
-    @TableGenerator(name = "ProductGenerator")
-
     @Id
     @ApiModelProperty("Product ID")
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "ProductGenerator")
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "Generator")
     @Column(name = "id", nullable = false)
     private Long id;
 

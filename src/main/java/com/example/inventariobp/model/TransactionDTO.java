@@ -21,11 +21,9 @@ import java.util.List;
 @Table(name = "Transaction")
 public class TransactionDTO {
 
-    @TableGenerator(name = "TransactionGenerator")
-
     @Id
     @ApiModelProperty("Transaction ID")
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "TransactionGenerator")
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "Generator")
     @Column(name = "id", nullable = false)
     private Long id;
 

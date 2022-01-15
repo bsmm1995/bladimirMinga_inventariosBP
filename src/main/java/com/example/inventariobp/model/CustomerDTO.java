@@ -16,11 +16,9 @@ import javax.persistence.*;
 @Table(name = "Customer")
 public class CustomerDTO {
 
-    @TableGenerator(name = "CustomerGenerator")
-
     @Id
     @ApiModelProperty("Customer ID")
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "CustomerGenerator")
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "Generator")
     @Column(name = "id", nullable = false)
     private Long id;
 
@@ -33,7 +31,6 @@ public class CustomerDTO {
     private String dni;
 
     @ApiModelProperty("Customer picture")
-
     @Column(name = "picture", columnDefinition = "TEXT")
     private String picture;
 }

@@ -1,4 +1,4 @@
-package com.example.inventariobp.config;
+package com.example.inventariobp.controller.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
