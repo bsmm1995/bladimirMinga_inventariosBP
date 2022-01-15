@@ -31,4 +31,10 @@ public class StoreDTO {
     @ApiModelProperty("Store name")
     @Column(name = "is_main")
     private Boolean isMain;
+
+    public StoreDTO(String cod, String name, Boolean isMain) {
+        this.cod = cod;
+        this.name = name;
+        this.isMain = isMain;
+    }
 }

@@ -160,9 +160,4 @@ public class TransactionService implements ITransactionService {
 
         return response;
     }
-
-    List<Map<String, Object>> updateList(List<Map<String, Object>> listResult, Long productoId, Double increase) {
-
-        return listResult;
-    }
 }

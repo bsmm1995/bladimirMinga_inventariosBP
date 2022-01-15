@@ -46,9 +46,8 @@ public class ProductService implements IProductService {
             throw new IllegalStateException("The stock cannot be less than 1. stock = ".concat(String.valueOf(stock)));
 
         Optional<ProductDTO> result = productRepository.findById(id);
-        ProductDTO update = result.get();
-        update.setStock(stock);
-        return productRepository.save(update);
+        result.get().setStock(stock);
+        return productRepository.save(result.get());
     }
 
     @Override
