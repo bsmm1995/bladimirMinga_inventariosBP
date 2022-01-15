@@ -84,4 +84,85 @@ public class TransactionService implements ITransactionService {
 
         return response;
     }
+
+    @Override
+    public List<Map<String, Object>> getNumberOfTransactionsGroupStoreAndDate() {
+        List<Map<String, Object>> response = new ArrayList<>();
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT COUNT(*) AS NUMBER_TRANSACTIONS, TRA.DATE, TRA.STORE_ID, STO.NAME ")
+                .append("FROM TRANSACTION TRA ")
+                .append("INNER JOIN STORE STO ")
+                .append("ON STO.ID = TRA.STORE_ID ")
+                .append("GROUP BY ")
+                .append("TRA.STORE_ID, TRA.DATE ");
+
+        Query query = entityManager.createNativeQuery(sql.toString());
+
+        List<Object[]> results = query.getResultList();
+        results.forEach(e -> {
+            Map<String, Object> tmpMap = new HashMap<>();
+            tmpMap.put("nTransactions", e[0]);
+            tmpMap.put("date", e[1]);
+            tmpMap.put("storeId", e[2]);
+            tmpMap.put("storeName", e[3]);
+            response.add(tmpMap);
+        });
+        return response;
+    }
+
+    @Override
+    public List<Map<String, Object>> getSoldByStoreAndProduct() {
+        List<Map<String, Object>> response = new ArrayList<>();
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT TRA.STORE_ID, STO.NAME AS STORE_NAME, TRD.PRODUCT_ID, PRO.NAME AS PRODUCT_NAME,  (TRD.QUANTITY * TRD.PRICE) AS TOTAL ")
+                .append("FROM TRANSACTION TRA ")
+                .append("INNER JOIN TRANSACTION_DETAIL TRD ")
+                .append("ON TRD.TRANSACTION_ID = TRA.ID ")
+                .append("INNER JOIN STORE STO ")
+                .append("ON STO.ID = TRA.STORE_ID ")
+                .append("INNER JOIN PRODUCT PRO ")
+                .append("ON PRO.ID = TRD.PRODUCT_ID ")
+                .append("GROUP BY ")
+                .append("TRA.STORE_ID, TRD.PRODUCT_ID, TRD.ID ");
+
+        Query query = entityManager.createNativeQuery(sql.toString());
+
+        List<Object[]> results = query.getResultList();
+        Set storeIdSet = new HashSet<>();
+
+        results.forEach(e -> {
+            storeIdSet.add(e[0]);
+        });
+
+        storeIdSet.forEach(storeId -> {
+            Set productIdSet = new HashSet<>();
+            results.forEach(element -> {
+                if (storeId.equals(element[0])) {
+                    if (productIdSet.contains(element[2])) {
+                        response.forEach(e -> {
+                            if (e.get("productId").equals(element[2])) {
+                                e.put("total", (Double) e.get("total") + (Double) element[4]);
+                            }
+                        });
+                    } else {
+                        Map<String, Object> tmpMap = new HashMap<>();
+                        tmpMap.put("storeId", element[0]);
+                        tmpMap.put("storeName", element[1]);
+                        tmpMap.put("productId", element[2]);
+                        tmpMap.put("productName", element[3]);
+                        tmpMap.put("total", element[4]);
+                        response.add(tmpMap);
+                        productIdSet.add(element[2]);
+                    }
+                }
+            });
+        });
+
+        return response;
+    }
+
+    List<Map<String, Object>> updateList(List<Map<String, Object>> listResult, Long productoId, Double increase) {
+
+        return listResult;
+    }
 }

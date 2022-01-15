@@ -18,4 +18,8 @@ public interface ITransactionService {
     Long deleteTransaction(Long id);
 
     Map<String, Object> getDataForCSVReport(String clienteDNI, Date startDate, Date endDate);
+
+    List<Map<String, Object>> getNumberOfTransactionsGroupStoreAndDate();
+
+    List<Map<String, Object>> getSoldByStoreAndProduct();
 }

@@ -179,7 +179,7 @@ public class TransactionController {
             @ApiImplicitParam(name = "endDate", value = "End date of the report", required = true, dataType = "Date", example = "2022-02-01 23:59:59")
     })
     @GetMapping(value = "reports/generateCSVReport")
-    public ResponseEntity generateCSVReport(@RequestParam String clienteDNI, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date startDate, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate) {
+    public ResponseEntity generateCSVReport(@RequestParam String clienteDNI, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date startDate, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date endDate) {
         HttpHeaders headers = new HttpHeaders();
         ByteArrayInputStream byteArrayOutputStream = null;
         String[] csvHeader = {"Transaction ID", "Date", "Store", "Product code", "Product name", "Price", "Quantity", "Total"};
@@ -209,5 +209,37 @@ public class TransactionController {
         headers.set(HttpHeaders.CONTENT_TYPE, "text/csv");
 
         return new ResponseEntity<>(fileInputStream, headers, HttpStatus.OK);
+    }
+
+    @ApiOperation("Report of numbers of transactions group by store and date")
+    @GetMapping(value = "reports/getNumberOfTransactionsGroupStoreAndDate")
+    public ResponseEntity getNumberOfTransactionsGroupStoreAndDate() {
+        Response response = new Response();
+        try {
+            List<Map<String, Object>> result = transactionService.getNumberOfTransactionsGroupStoreAndDate();
+            response.setMessage(String.valueOf(result.size()).concat(" Registros encontrados"));
+            response.setAuto(result);
+        } catch (Exception e) {
+            response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+            response.setMessage(e.getMessage());
+            response.setError(true);
+        }
+        return new ResponseEntity<>(response, new HttpHeaders(), HttpStatus.OK);
+    }
+
+    @ApiOperation("Report of numbers of transactions group by store and date")
+    @GetMapping(value = "reports/getSoldByStoreAndProduct")
+    public ResponseEntity getSoldByStoreAndProduct() {
+        Response response = new Response();
+        try {
+            List<Map<String, Object>> result = transactionService.getSoldByStoreAndProduct();
+            response.setMessage(String.valueOf(result.size()).concat(" Registros encontrados"));
+            response.setAuto(result);
+        } catch (Exception e) {
+            response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+            response.setMessage(e.getMessage());
+            response.setError(true);
+        }
+        return new ResponseEntity<>(response, new HttpHeaders(), HttpStatus.OK);
     }
 }
