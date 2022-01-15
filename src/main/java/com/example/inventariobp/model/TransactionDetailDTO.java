@@ -4,10 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Getter
 @Setter
@@ -18,9 +15,13 @@ import javax.persistence.Table;
 @ApiModel("Transaction detail entity")
 @Table(name = "Transaction_Detail")
 public class TransactionDetailDTO {
+
+    @TableGenerator(name = "Transaction_DetailGenerator")
+
     @Id
     @ApiModelProperty("Transaction detail ID")
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "Transaction_DetailGenerator")
+    @Column(name = "id", nullable = false)
     private Long id;
 
     @ApiModelProperty("Transaction identification")

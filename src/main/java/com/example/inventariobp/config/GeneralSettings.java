@@ -19,9 +19,8 @@ public class GeneralSettings {
 
     @Bean
     CommandLineRunner init(IProductRepository productRepository) {
-        LoadStartup utilities = new LoadStartup();
         return args -> {
-            List<ProductDTO> result = utilities.loadInitialDataProductsFromMocks();
+            List<ProductDTO> result = new ManageMock().loadInitialDataProductsFromMocks();
             result.forEach(e -> productRepository.save(e));
         };
     }

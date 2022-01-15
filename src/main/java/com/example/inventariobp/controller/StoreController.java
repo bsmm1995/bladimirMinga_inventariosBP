@@ -109,11 +109,11 @@ public class StoreController {
     }
 
     @ApiOperation("Find all product assignments to the store")
-    @GetMapping(value = "store-product/getAllProductsByStore/{stroreId}")
-    public ResponseEntity<Response> getAllProductsByStore(@PathVariable("stroreId") Long stroreId) {
+    @GetMapping(value = "store-product/getAllProductsByStore/{storeId}")
+    public ResponseEntity<Response> getAllProductsByStore(@PathVariable("storeId") Long storeId) {
         Response response = new Response();
         try {
-            List<ProductDTO> result = storeProductService.getAllProductsByStore(stroreId);
+            List<ProductDTO> result = storeProductService.getAllProductsByStore(storeId);
             response.setMessage(String.valueOf(result.size()).concat(" Registros encontrados"));
             response.setAuto(result);
         } catch (Exception e) {

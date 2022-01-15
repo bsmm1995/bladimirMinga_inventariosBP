@@ -4,10 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Getter
 @Setter
@@ -18,14 +15,18 @@ import javax.persistence.Table;
 @ApiModel("StoreProduct entity")
 @Table(name = "StoreProduct")
 public class StoreProductDTO {
+
+    @TableGenerator(name = "StoreProductGenerator")
+
     @Id
     @ApiModelProperty("StoreProduct ID")
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "StoreProductGenerator")
+    @Column(name = "id", nullable = false)
     private Long id;
 
     @ApiModelProperty("Store identification")
     @Column(name = "store_id")
-    private Long stroreId;
+    private Long storeId;
 
     @ApiModelProperty("Product identification")
     @Column(name = "product_id")

@@ -2,16 +2,9 @@ package com.example.inventariobp.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Getter
 @Setter
@@ -22,8 +15,12 @@ import javax.persistence.Table;
 @ApiModel("Store entity")
 @Table(name = "Store")
 public class StoreDTO {
+
+    @TableGenerator(name = "StoreGenerator")
+
     @Id
     @ApiModelProperty("Store ID")
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "StoreGenerator")
     @Column(name = "id", nullable = false)
     private Long id;
 

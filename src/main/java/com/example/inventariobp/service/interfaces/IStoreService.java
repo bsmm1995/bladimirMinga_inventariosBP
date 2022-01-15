@@ -17,4 +17,6 @@ public interface IStoreService {
     Long deleteStore(Long id);
 
     Boolean placeOrder(OrderVO data);
+
+    Boolean productExistsInTheStore(Long storeId, Long productId);
 }

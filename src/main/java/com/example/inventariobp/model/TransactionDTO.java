@@ -2,31 +2,36 @@ package com.example.inventariobp.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
 @Entity
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
 @ApiModel("Transaction entity")
 @Table(name = "Transaction")
 public class TransactionDTO {
+
+    @TableGenerator(name = "TransactionGenerator")
+
     @Id
     @ApiModelProperty("Transaction ID")
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "TransactionGenerator")
+    @Column(name = "id", nullable = false)
     private Long id;
 
     @ApiModelProperty("Store identification")
     @Column(name = "store_id")
-    private Long stroreId;
+    private Long storeId;
 
     @ApiModelProperty("Customer identification")
     @Column(name = "customer_id")
@@ -37,4 +42,12 @@ public class TransactionDTO {
 
     @ApiModelProperty("Transaction total")
     private Double total;
+
+    @Transient
+    private List<TransactionDetailDTO> detail;
+
+    public TransactionDTO() {
+        detail = new ArrayList<>();
+        total = 0.0;
+    }
 }

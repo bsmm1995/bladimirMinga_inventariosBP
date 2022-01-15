@@ -10,7 +10,7 @@ public interface IStoreProductService {
 
     Optional<StoreProductDTO> getStoreProduct(Long id);
 
-    List<ProductDTO> getAllProductsByStore(Long stroreId);
+    List<ProductDTO> getAllProductsByStore(Long storeId);
 
     StoreProductDTO saveStoreProduct(StoreProductDTO dto);
 

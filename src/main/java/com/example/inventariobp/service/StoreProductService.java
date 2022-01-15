@@ -26,16 +26,16 @@ public class StoreProductService implements IStoreProductService {
     }
 
     @Override
-    public List<ProductDTO> getAllProductsByStore(Long stroreId) {
+    public List<ProductDTO> getAllProductsByStore(Long storeID) {
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT PRO.ID , PRO.COD , PRO.NAME, PRO.PRICE, PRO.STOCK ")
                 .append("FROM PRODUCT PRO ")
                 .append("INNER JOIN STORE_PRODUCT STP ")
                 .append("ON  STP.PRODUCT_ID = PRO.ID ")
-                .append("AND STP.STORE_ID = :stroreId");
+                .append("AND STP.STORE_ID = :storeId");
 
         Query query = entityManager.createNativeQuery(sql.toString());
-        query.setParameter("stroreId", stroreId);
+        query.setParameter("storeId", storeID);
 
         List<Object[]> results = query.getResultList();
         return results
