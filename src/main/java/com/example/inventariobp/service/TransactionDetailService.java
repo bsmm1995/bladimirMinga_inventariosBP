@@ -1,7 +1,7 @@
 package com.example.inventariobp.service;
 
-import com.example.inventariobp.model.TransactionDetailDTO;
-import com.example.inventariobp.repository.ITransactionDetailRepository;
+import com.example.inventariobp.model.TransactionDetail;
+import com.example.inventariobp.repository.interfaces.ITransactionDetailRepository;
 import com.example.inventariobp.service.interfaces.ITransactionDetailService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,17 +16,17 @@ public class TransactionDetailService implements ITransactionDetailService {
     private final ITransactionDetailRepository transactionDetailRepository;
 
     @Override
-    public Optional<TransactionDetailDTO> getTransactionDetail(Long id) {
+    public Optional<TransactionDetail> getTransactionDetail(Long id) {
         return transactionDetailRepository.findById(id);
     }
 
     @Override
-    public List<TransactionDetailDTO> getAllTransactionsDetail() {
+    public List<TransactionDetail> getAllTransactionsDetail() {
         return transactionDetailRepository.findAll();
     }
 
     @Override
-    public TransactionDetailDTO saveTransactionDetail(TransactionDetailDTO dto) {
+    public TransactionDetail saveTransactionDetail(TransactionDetail dto) {
         return transactionDetailRepository.save(dto);
     }
 

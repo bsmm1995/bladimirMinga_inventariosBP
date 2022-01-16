@@ -1,8 +1,7 @@
-package com.example.inventariobp.model.vo;
+package com.example.inventariobp.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.http.HttpStatus;
 

@@ -1,7 +1,7 @@
 package com.example.inventariobp.controller;
 
-import com.example.inventariobp.model.CustomerDTO;
-import com.example.inventariobp.model.vo.Response;
+import com.example.inventariobp.model.Customer;
+import com.example.inventariobp.model.dto.Response;
 import com.example.inventariobp.service.interfaces.ICustomerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -27,7 +27,7 @@ public class CustomerController {
     public ResponseEntity<Response> getCustomer(@PathVariable("id") Long id) {
         Response response = new Response();
         try {
-            Optional<CustomerDTO> result = customerService.getCustomer(id);
+            Optional<Customer> result = customerService.getCustomer(id);
             response.setAuto(result);
         } catch (Exception e) {
             response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -42,7 +42,7 @@ public class CustomerController {
     public ResponseEntity<Response> getAllCustomers() {
         Response response = new Response();
         try {
-            List<CustomerDTO> result = customerService.getAllCustomers();
+            List<Customer> result = customerService.getAllCustomers();
             response.setMessage(String.valueOf(result.size()).concat(" Registros encontrados"));
             response.setAuto(result);
         } catch (Exception e) {
@@ -55,10 +55,10 @@ public class CustomerController {
 
     @ApiOperation("Create or update a customer")
     @PostMapping(value = "saveCustomer", headers = "Accept=application/json;charset=UTF-8")
-    public ResponseEntity<Response> saveCustomer(@RequestBody CustomerDTO dto) {
+    public ResponseEntity<Response> saveCustomer(@RequestBody Customer dto) {
         Response response = new Response();
         try {
-            CustomerDTO result = customerService.saveCustomer(dto);
+            Customer result = customerService.saveCustomer(dto);
             response.setAuto(result);
             response.setStatus(HttpStatus.CREATED);
         } catch (Exception e) {

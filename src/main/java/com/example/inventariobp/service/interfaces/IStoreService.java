@@ -1,22 +1,22 @@
 package com.example.inventariobp.service.interfaces;
 
-import com.example.inventariobp.model.StoreDTO;
-import com.example.inventariobp.model.vo.OrderVO;
+import com.example.inventariobp.model.Store;
+import com.example.inventariobp.model.dto.OrderDTO;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface IStoreService {
 
-    Optional<StoreDTO> getStore(Long id);
+    Optional<Store> getStore(Long id);
 
-    List<StoreDTO> getAllStores();
+    List<Store> getAllStores();
 
-    StoreDTO saveStore(StoreDTO dto);
+    Store saveStore(Store dto);
 
     Long deleteStore(Long id);
 
-    Boolean placeOrder(OrderVO data);
+    Boolean placeOrder(OrderDTO data);
 
     Boolean productExistsInTheStore(Long storeId, Long productId);
 }

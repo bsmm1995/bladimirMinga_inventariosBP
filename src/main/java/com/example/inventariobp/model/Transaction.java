@@ -2,24 +2,19 @@ package com.example.inventariobp.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Getter
-@Setter
 @Entity
 @Data
 @AllArgsConstructor
 @ApiModel("Transaction entity")
 @Table(name = "Transaction")
-public class TransactionDTO {
+public class Transaction {
 
     @Id
     @ApiModelProperty("Transaction ID")
@@ -42,9 +37,9 @@ public class TransactionDTO {
     private Double total;
 
     @Transient
-    private List<TransactionDetailDTO> detail;
+    private List<TransactionDetail> detail;
 
-    public TransactionDTO() {
+    public Transaction() {
         detail = new ArrayList<>();
         total = 0.0;
     }

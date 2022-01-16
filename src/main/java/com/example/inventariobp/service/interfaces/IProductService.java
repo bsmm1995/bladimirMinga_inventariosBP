@@ -1,20 +1,20 @@
 package com.example.inventariobp.service.interfaces;
 
-import com.example.inventariobp.model.ProductDTO;
-import com.example.inventariobp.model.vo.ProductVO;
+import com.example.inventariobp.model.Product;
+import com.example.inventariobp.model.dto.ProductDTO;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface IProductService {
 
-    Optional<ProductDTO> getProduct(Long id);
+    Optional<Product> getProduct(Long id);
 
-    List<ProductVO> getAllProducts();
+    List<ProductDTO> getAllProducts();
 
-    ProductDTO saveProduct(ProductDTO dto);
+    Product saveProduct(Product dto);
 
-    ProductDTO updateStockProduct(Long id, Double stock);
+    Product updateStockProduct(Long id, Double stock);
 
     Long deleteProduct(Long id);
 }

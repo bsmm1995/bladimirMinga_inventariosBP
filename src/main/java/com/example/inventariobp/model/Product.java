@@ -6,27 +6,29 @@ import lombok.*;
 
 import javax.persistence.*;
 
-@Getter
-@Setter
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel("StoreProduct entity")
-@Table(name = "StoreProduct")
-public class StoreProductDTO {
+@ApiModel("Product entity")
+@Table(name = "Product")
+public class Product {
 
     @Id
-    @ApiModelProperty("StoreProduct ID")
+    @ApiModelProperty("Product ID")
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "Generator")
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @ApiModelProperty("Store identification")
-    @Column(name = "store_id")
-    private Long storeId;
+    @ApiModelProperty("Product code")
+    private String cod;
 
-    @ApiModelProperty("Product identification")
-    @Column(name = "product_id")
-    private Long productId;
+    @ApiModelProperty("Product name")
+    private String name;
+
+    @ApiModelProperty("Product price")
+    private Double price;
+
+    @ApiModelProperty("Product stock")
+    private Double stock;
 }

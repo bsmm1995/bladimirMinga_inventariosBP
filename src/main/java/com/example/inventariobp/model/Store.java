@@ -6,15 +6,13 @@ import lombok.*;
 
 import javax.persistence.*;
 
-@Getter
-@Setter
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ApiModel("Store entity")
 @Table(name = "Store")
-public class StoreDTO {
+public class Store {
 
     @Id
     @ApiModelProperty("Store ID")
@@ -32,7 +30,7 @@ public class StoreDTO {
     @Column(name = "is_main")
     private Boolean isMain;
 
-    public StoreDTO(String cod, String name, Boolean isMain) {
+    public Store(String cod, String name, Boolean isMain) {
         this.cod = cod;
         this.name = name;
         this.isMain = isMain;

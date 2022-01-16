@@ -1,4 +1,4 @@
-package com.example.inventariobp.model.vo;
+package com.example.inventariobp.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,7 +11,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderVO {
+public class OrderDTO {
     private Long customerId;
-    private List<OrderDetailVO> detail;
+    private List<OrderDetailDTO> detail;
 }

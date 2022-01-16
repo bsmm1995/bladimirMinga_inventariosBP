@@ -1,17 +1,17 @@
 package com.example.inventariobp.service.interfaces;
 
-import com.example.inventariobp.model.TransactionDetailDTO;
+import com.example.inventariobp.model.TransactionDetail;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface ITransactionDetailService {
 
-    Optional<TransactionDetailDTO> getTransactionDetail(Long id);
+    Optional<TransactionDetail> getTransactionDetail(Long id);
 
-    List<TransactionDetailDTO> getAllTransactionsDetail();
+    List<TransactionDetail> getAllTransactionsDetail();
 
-    TransactionDetailDTO saveTransactionDetail(TransactionDetailDTO dto);
+    TransactionDetail saveTransactionDetail(TransactionDetail dto);
 
     Long deleteTransactionDetail(Long id);
 }

@@ -1,10 +1,10 @@
 package com.example.inventariobp.controller;
 
-import com.example.inventariobp.model.ProductDTO;
-import com.example.inventariobp.model.vo.Response;
-import com.example.inventariobp.model.StoreDTO;
-import com.example.inventariobp.model.StoreProductDTO;
-import com.example.inventariobp.model.vo.OrderVO;
+import com.example.inventariobp.model.Product;
+import com.example.inventariobp.model.dto.Response;
+import com.example.inventariobp.model.Store;
+import com.example.inventariobp.model.StoreProduct;
+import com.example.inventariobp.model.dto.OrderDTO;
 import com.example.inventariobp.service.interfaces.IStoreProductService;
 import com.example.inventariobp.service.interfaces.IStoreService;
 import io.swagger.annotations.Api;
@@ -32,7 +32,7 @@ public class StoreController {
     public ResponseEntity<Response> getStore(@PathVariable("id") Long id) {
         Response response = new Response();
         try {
-            Optional<StoreDTO> result = storeService.getStore(id);
+            Optional<Store> result = storeService.getStore(id);
             response.setAuto(result);
         } catch (Exception e) {
             response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -47,7 +47,7 @@ public class StoreController {
     public ResponseEntity<Response> getAllStores() {
         Response response = new Response();
         try {
-            List<StoreDTO> result = storeService.getAllStores();
+            List<Store> result = storeService.getAllStores();
             response.setMessage(String.valueOf(result.size()).concat(" Registros encontrados"));
             response.setAuto(result);
         } catch (Exception e) {
@@ -60,10 +60,10 @@ public class StoreController {
 
     @ApiOperation("Create or update a store")
     @PostMapping(value = "saveStore", headers = "Accept=application/json;charset=UTF-8")
-    public ResponseEntity<Response> saveStore(@RequestBody StoreDTO dto) {
+    public ResponseEntity<Response> saveStore(@RequestBody Store dto) {
         Response response = new Response();
         try {
-            StoreDTO result = storeService.saveStore(dto);
+            Store result = storeService.saveStore(dto);
             response.setAuto(result);
             response.setStatus(HttpStatus.CREATED);
         } catch (Exception e) {
@@ -98,7 +98,7 @@ public class StoreController {
     public ResponseEntity<Response> getStoreProduct(@PathVariable("id") Long id) {
         Response response = new Response();
         try {
-            Optional<StoreProductDTO> result = storeProductService.getStoreProduct(id);
+            Optional<StoreProduct> result = storeProductService.getStoreProduct(id);
             response.setAuto(result);
         } catch (Exception e) {
             response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -113,7 +113,7 @@ public class StoreController {
     public ResponseEntity<Response> getAllProductsByStore(@PathVariable("storeId") Long storeId) {
         Response response = new Response();
         try {
-            List<ProductDTO> result = storeProductService.getAllProductsByStore(storeId);
+            List<Product> result = storeProductService.getAllProductsByStore(storeId);
             response.setMessage(String.valueOf(result.size()).concat(" Registros encontrados"));
             response.setAuto(result);
         } catch (Exception e) {
@@ -126,10 +126,10 @@ public class StoreController {
 
     @ApiOperation("Create or update a product assignment to the store")
     @PostMapping(value = "store-product/saveStoreProduct", headers = "Accept=application/json;charset=UTF-8")
-    public ResponseEntity<Response> saveStoreProduct(@RequestBody StoreProductDTO dto) {
+    public ResponseEntity<Response> saveStoreProduct(@RequestBody StoreProduct dto) {
         Response response = new Response();
         try {
-            StoreProductDTO result = storeProductService.saveStoreProduct(dto);
+            StoreProduct result = storeProductService.saveStoreProduct(dto);
             response.setAuto(result);
             response.setStatus(HttpStatus.CREATED);
         } catch (Exception e) {
@@ -161,7 +161,7 @@ public class StoreController {
 
     @ApiOperation("Place an order")
     @PostMapping(value = "orders/placeOrder", headers = "Accept=application/json;charset=UTF-8")
-    public ResponseEntity<Response> placeOrder(@RequestBody OrderVO data) {
+    public ResponseEntity<Response> placeOrder(@RequestBody OrderDTO data) {
         Response response = new Response();
         try {
             Boolean result = storeService.placeOrder(data);

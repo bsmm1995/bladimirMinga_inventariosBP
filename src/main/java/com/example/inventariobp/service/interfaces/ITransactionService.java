@@ -1,6 +1,6 @@
 package com.example.inventariobp.service.interfaces;
 
-import com.example.inventariobp.model.TransactionDTO;
+import com.example.inventariobp.model.Transaction;
 
 import java.util.Date;
 import java.util.List;
@@ -9,11 +9,11 @@ import java.util.Optional;
 
 public interface ITransactionService {
 
-    Optional<TransactionDTO> getTransaction(Long id);
+    Optional<Transaction> getTransaction(Long id);
 
-    List<TransactionDTO> getAllTransactions();
+    List<Transaction> getAllTransactions();
 
-    TransactionDTO saveTransaction(TransactionDTO dto);
+    Transaction saveTransaction(Transaction dto);
 
     Long deleteTransaction(Long id);
 

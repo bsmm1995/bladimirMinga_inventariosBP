@@ -1,16 +1,13 @@
 package com.example.inventariobp.service;
 
-import com.example.inventariobp.model.CustomerDTO;
-import com.example.inventariobp.model.TransactionDTO;
-import com.example.inventariobp.model.vo.ReportDetailVO;
-import com.example.inventariobp.repository.ITransactionRepository;
-import com.example.inventariobp.service.interfaces.ICustomerService;
+import com.example.inventariobp.model.Transaction;
+import com.example.inventariobp.model.dto.ReportDetailDTO;
+import com.example.inventariobp.repository.interfaces.IReportsRepository;
+import com.example.inventariobp.repository.interfaces.ITransactionRepository;
 import com.example.inventariobp.service.interfaces.ITransactionService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import java.math.BigInteger;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -20,21 +17,20 @@ import java.util.stream.Collectors;
 public class TransactionService implements ITransactionService {
 
     private final ITransactionRepository transactionRepository;
-    private final ICustomerService customerService;
-    private final EntityManager entityManager;
+    private final IReportsRepository transactionComplementaryRepository;
 
     @Override
-    public Optional<TransactionDTO> getTransaction(Long id) {
+    public Optional<Transaction> getTransaction(Long id) {
         return transactionRepository.findById(id);
     }
 
     @Override
-    public List<TransactionDTO> getAllTransactions() {
+    public List<Transaction> getAllTransactions() {
         return transactionRepository.findAll();
     }
 
     @Override
-    public TransactionDTO saveTransaction(TransactionDTO dto) {
+    public Transaction saveTransaction(Transaction dto) {
         return transactionRepository.save(dto);
     }
 
@@ -46,59 +42,22 @@ public class TransactionService implements ITransactionService {
 
     @Override
     public Map<String, Object> getDataForCSVReport(String clienteDNI, Date startDate, Date endDate) {
-        Map<String, Object> response = new HashMap<>();
-        CustomerDTO customer = customerService.getCustomerByDNI(clienteDNI);
-        if (customer == null)
-            throw new IllegalStateException(String.format("Customer with DNI %s does not exist", clienteDNI));
-
-        if (startDate.equals(endDate) || startDate.after(endDate))
-            throw new IllegalStateException("The start date cannot be greater than or equal to the end date");
-
-        response.put("customer", customer);
-        StringBuilder sql = new StringBuilder();
-        sql.append("SELECT TRA.ID, TRA.DATE, CONCAT(STO.COD, ' - ', STO.NAME) AS STORE, PRO.COD, PRO.NAME, TRD.PRICE, TRD.QUANTITY, (TRD.PRICE * TRD.QUANTITY) AS TOTAL ")
-                .append("FROM TRANSACTION TRA ")
-                .append("INNER JOIN TRANSACTION_DETAIL TRD ")
-                .append("ON TRD.TRANSACTION_ID = TRA.ID ")
-                .append("INNER JOIN STORE STO ")
-                .append("ON STO.ID = TRA.STORE_ID ")
-                .append("INNER JOIN PRODUCT PRO ")
-                .append("ON PRO.ID = TRD.PRODUCT_ID ")
-                .append("WHERE ")
-                .append("TRA.CUSTOMER_ID = :clienteId ")
-                .append("AND TRA.DATE BETWEEN :startDate AND :endDate ");
-
-        Query query = entityManager.createNativeQuery(sql.toString());
-        query.setParameter("clienteId", customer.getId());
-        query.setParameter("startDate", startDate);
-        query.setParameter("endDate", endDate);
-
-        List<Object[]> results = query.getResultList();
-
-        List<ReportDetailVO> list = results.stream()
-                .map(result -> new ReportDetailVO(((BigInteger) result[0]).longValue(), (Date) result[1],
+        Map<String, Object> resultMap = transactionComplementaryRepository.getDataForCSVReport(clienteDNI, startDate, endDate);
+        List<Object[]> results = (List<Object[]>) resultMap.get("detail");
+        List<ReportDetailDTO> list = results.stream()
+                .map(result -> new ReportDetailDTO(((BigInteger) result[0]).longValue(), (Date) result[1],
                         (String) result[2], (String) result[3], (String) result[4], (Double) result[5], (Double) result[6], (Double) result[7]))
                 .collect(Collectors.toList());
 
-        response.put("detail", list);
+        resultMap.put("detail", list);
 
-        return response;
+        return resultMap;
     }
 
     @Override
     public List<Map<String, Object>> getNumberOfTransactionsGroupStoreAndDate() {
         List<Map<String, Object>> response = new ArrayList<>();
-        StringBuilder sql = new StringBuilder();
-        sql.append("SELECT COUNT(*) AS NUMBER_TRANSACTIONS, TRA.DATE, TRA.STORE_ID, STO.NAME ")
-                .append("FROM TRANSACTION TRA ")
-                .append("INNER JOIN STORE STO ")
-                .append("ON STO.ID = TRA.STORE_ID ")
-                .append("GROUP BY ")
-                .append("TRA.STORE_ID, TRA.DATE ");
-
-        Query query = entityManager.createNativeQuery(sql.toString());
-
-        List<Object[]> results = query.getResultList();
+        List<Object[]> results = transactionComplementaryRepository.getNumberOfTransactionsGroupStoreAndDate();
         results.forEach(e -> {
             Map<String, Object> tmpMap = new HashMap<>();
             tmpMap.put("nTransactions", e[0]);
@@ -113,21 +72,7 @@ public class TransactionService implements ITransactionService {
     @Override
     public List<Map<String, Object>> getSoldByStoreAndProduct() {
         List<Map<String, Object>> response = new ArrayList<>();
-        StringBuilder sql = new StringBuilder();
-        sql.append("SELECT TRA.STORE_ID, STO.NAME AS STORE_NAME, TRD.PRODUCT_ID, PRO.NAME AS PRODUCT_NAME,  (TRD.QUANTITY * TRD.PRICE) AS TOTAL ")
-                .append("FROM TRANSACTION TRA ")
-                .append("INNER JOIN TRANSACTION_DETAIL TRD ")
-                .append("ON TRD.TRANSACTION_ID = TRA.ID ")
-                .append("INNER JOIN STORE STO ")
-                .append("ON STO.ID = TRA.STORE_ID ")
-                .append("INNER JOIN PRODUCT PRO ")
-                .append("ON PRO.ID = TRD.PRODUCT_ID ")
-                .append("GROUP BY ")
-                .append("TRA.STORE_ID, TRD.PRODUCT_ID, TRD.ID ");
-
-        Query query = entityManager.createNativeQuery(sql.toString());
-
-        List<Object[]> results = query.getResultList();
+        List<Object[]> results = transactionComplementaryRepository.getSoldByStoreAndProduct();
         Set storeIdSet = new HashSet<>();
 
         results.forEach(e -> {

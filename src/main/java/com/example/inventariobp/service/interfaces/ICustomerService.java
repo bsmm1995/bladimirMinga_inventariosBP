@@ -1,19 +1,21 @@
 package com.example.inventariobp.service.interfaces;
 
-import com.example.inventariobp.model.CustomerDTO;
+import com.example.inventariobp.model.Customer;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public interface ICustomerService {
 
-    Optional<CustomerDTO> getCustomer(Long id);
+    Optional<Customer> getCustomer(Long id);
 
-    CustomerDTO getCustomerByDNI(String dni);
+    Optional<Customer> getCustomerByDNI(String dni);
 
-    List<CustomerDTO> getAllCustomers();
+    List<Customer> getAllCustomers();
 
-    CustomerDTO saveCustomer(CustomerDTO dto);
+    Customer saveCustomer(Customer dto);
 
     Long deleteCustomer(Long id);
 }

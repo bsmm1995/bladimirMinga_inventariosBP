@@ -6,15 +6,13 @@ import lombok.*;
 
 import javax.persistence.*;
 
-@Getter
-@Setter
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ApiModel("Customer entity")
 @Table(name = "Customer")
-public class CustomerDTO {
+public class Customer {
 
     @Id
     @ApiModelProperty("Customer ID")

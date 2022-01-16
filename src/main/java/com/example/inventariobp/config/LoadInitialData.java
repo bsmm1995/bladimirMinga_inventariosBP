@@ -1,8 +1,8 @@
-package com.example.inventariobp.controller.config;
+package com.example.inventariobp.config;
 
 import com.example.inventariobp.model.*;
-import com.example.inventariobp.repository.*;
-import com.example.inventariobp.service.ManageMock;
+import com.example.inventariobp.repository.interfaces.*;
+import com.example.inventariobp.service.complementary.ManageMock;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +13,12 @@ import java.util.List;
 
 @Configuration
 public class LoadInitialData {
+
+    private final ManageMock manageMock;
+
+    public LoadInitialData() {
+        this.manageMock = new ManageMock();
+    }
 
     @TableGenerator(name = "Generator")
 
@@ -25,7 +31,7 @@ public class LoadInitialData {
     CommandLineRunner initProducts(IProductRepository productRepository) {
 
         return args -> {
-            List<ProductDTO> result = new ManageMock().loadInitialDataProductsFromMocks();
+            List<Product> result = manageMock.loadInitialDataProductsFromMocks();
             result.forEach(e -> productRepository.save(e));
         };
     }
@@ -34,7 +40,7 @@ public class LoadInitialData {
     CommandLineRunner initCustomers(ICustomerRepository customerRepository) {
 
         return args -> {
-            List<CustomerDTO> result = new ManageMock().loadInitialDataCustomersFromMocks();
+            List<Customer> result = manageMock.loadInitialDataCustomersFromMocks();
             result.forEach(e -> customerRepository.save(e));
         };
     }
@@ -43,7 +49,7 @@ public class LoadInitialData {
     CommandLineRunner initTransactions(ITransactionRepository transactionRepository) {
 
         return args -> {
-            List<TransactionDTO> result = new ManageMock().loadInitialDataTransactionsFromMocks();
+            List<Transaction> result = manageMock.loadInitialDataTransactionsFromMocks();
             result.forEach(e -> transactionRepository.save(e));
         };
     }
@@ -52,7 +58,7 @@ public class LoadInitialData {
     CommandLineRunner initTransactionsDetail(ITransactionDetailRepository transactionDetailRepository) {
 
         return args -> {
-            List<TransactionDetailDTO> result = new ManageMock().loadInitialDataTransactionsDetailFromMocks();
+            List<TransactionDetail> result = manageMock.loadInitialDataTransactionsDetailFromMocks();
             result.forEach(e -> transactionDetailRepository.save(e));
         };
     }
@@ -61,7 +67,7 @@ public class LoadInitialData {
     CommandLineRunner initStoreProducts(IStoreProductRepository storeProductRepository) {
 
         return args -> {
-            List<StoreProductDTO> result = new ManageMock().loadInitialDataStoreProductsFromMocks();
+            List<StoreProduct> result = manageMock.loadInitialDataStoreProductsFromMocks();
             result.forEach(e -> storeProductRepository.save(e));
         };
     }

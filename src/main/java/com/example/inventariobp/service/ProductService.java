@@ -1,14 +1,13 @@
 package com.example.inventariobp.service;
 
-import com.example.inventariobp.model.ProductDTO;
-import com.example.inventariobp.model.vo.ProductVO;
-import com.example.inventariobp.repository.IProductRepository;
+import com.example.inventariobp.model.Product;
+import com.example.inventariobp.model.dto.ProductDTO;
+import com.example.inventariobp.repository.interfaces.IProductRepository;
 import com.example.inventariobp.service.interfaces.IProductService;
+import com.example.inventariobp.utils.Helpers;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -18,34 +17,34 @@ import java.util.stream.Collectors;
 public class ProductService implements IProductService {
 
     private final IProductRepository productRepository;
-    private final EntityManager entityManager;
 
     @Override
-    public Optional<ProductDTO> getProduct(Long id) {
+    public Optional<Product> getProduct(Long id) {
         return productRepository.findById(id);
     }
 
     @Override
-    public List<ProductVO> getAllProducts() {
-        Query query = entityManager.createNativeQuery("SELECT cod, name FROM Product");
-        List<Object[]> results = query.getResultList();
-        return results
-                .stream()
-                .map(result -> new ProductVO((String) result[0], (String) result[1]))
+    public List<ProductDTO> getAllProducts() {
+        List<Product> listDTO = productRepository.findAll();
+
+        List<ProductDTO> result = listDTO.stream()
+                .map(element -> Helpers.modelMapper().map(element, ProductDTO.class))
                 .collect(Collectors.toList());
+
+        return result;
     }
 
     @Override
-    public ProductDTO saveProduct(ProductDTO dto) {
+    public Product saveProduct(Product dto) {
         return productRepository.save(dto);
     }
 
     @Override
-    public ProductDTO updateStockProduct(Long id, Double stock) {
+    public Product updateStockProduct(Long id, Double stock) {
         if (stock < 1)
             throw new IllegalStateException("The stock cannot be less than 1. stock = ".concat(String.valueOf(stock)));
 
-        Optional<ProductDTO> result = productRepository.findById(id);
+        Optional<Product> result = productRepository.findById(id);
         result.get().setStock(stock);
         return productRepository.save(result.get());
     }

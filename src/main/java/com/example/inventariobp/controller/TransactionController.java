@@ -1,10 +1,10 @@
 package com.example.inventariobp.controller;
 
-import com.example.inventariobp.model.CustomerDTO;
-import com.example.inventariobp.model.TransactionDTO;
-import com.example.inventariobp.model.TransactionDetailDTO;
-import com.example.inventariobp.model.vo.ReportDetailVO;
-import com.example.inventariobp.model.vo.Response;
+import com.example.inventariobp.model.Customer;
+import com.example.inventariobp.model.Transaction;
+import com.example.inventariobp.model.TransactionDetail;
+import com.example.inventariobp.model.dto.ReportDetailDTO;
+import com.example.inventariobp.model.dto.Response;
 import com.example.inventariobp.service.interfaces.ITransactionDetailService;
 import com.example.inventariobp.service.interfaces.ITransactionService;
 import io.swagger.annotations.Api;
@@ -45,7 +45,7 @@ public class TransactionController {
     public ResponseEntity<Response> getTransaction(@PathVariable("id") Long id) {
         Response response = new Response();
         try {
-            Optional<TransactionDTO> result = transactionService.getTransaction(id);
+            Optional<Transaction> result = transactionService.getTransaction(id);
             response.setAuto(result);
         } catch (Exception e) {
             response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -60,7 +60,7 @@ public class TransactionController {
     public ResponseEntity<Response> getAllTransactions() {
         Response response = new Response();
         try {
-            List<TransactionDTO> result = transactionService.getAllTransactions();
+            List<Transaction> result = transactionService.getAllTransactions();
             response.setMessage(String.valueOf(result.size()).concat(" Registros encontrados"));
             response.setAuto(result);
         } catch (Exception e) {
@@ -73,10 +73,10 @@ public class TransactionController {
 
     @ApiOperation("Create or update a transaction")
     @PostMapping(value = "saveTransaction", headers = "Accept=application/json;charset=UTF-8")
-    public ResponseEntity<Response> saveTransaction(@RequestBody TransactionDTO dto) {
+    public ResponseEntity<Response> saveTransaction(@RequestBody Transaction dto) {
         Response response = new Response();
         try {
-            TransactionDTO result = transactionService.saveTransaction(dto);
+            Transaction result = transactionService.saveTransaction(dto);
             response.setAuto(result);
             response.setStatus(HttpStatus.CREATED);
         } catch (Exception e) {
@@ -111,7 +111,7 @@ public class TransactionController {
     public ResponseEntity<Response> getTransactionDetail(@PathVariable("id") Long id) {
         Response response = new Response();
         try {
-            Optional<TransactionDetailDTO> result = transactionDetailService.getTransactionDetail(id);
+            Optional<TransactionDetail> result = transactionDetailService.getTransactionDetail(id);
             response.setAuto(result);
         } catch (Exception e) {
             response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -126,7 +126,7 @@ public class TransactionController {
     public ResponseEntity<Response> getAllTransactionsDetail() {
         Response response = new Response();
         try {
-            List<TransactionDetailDTO> result = transactionDetailService.getAllTransactionsDetail();
+            List<TransactionDetail> result = transactionDetailService.getAllTransactionsDetail();
             response.setMessage(String.valueOf(result.size()).concat(" Registros encontrados"));
             response.setAuto(result);
         } catch (Exception e) {
@@ -139,10 +139,10 @@ public class TransactionController {
 
     @ApiOperation("Create or update a transaction detail")
     @PostMapping(value = "detail/saveTransactionDetail", headers = "Accept=application/json;charset=UTF-8")
-    public ResponseEntity<Response> saveTransactionDetail(@RequestBody TransactionDetailDTO dto) {
+    public ResponseEntity<Response> saveTransactionDetail(@RequestBody TransactionDetail dto) {
         Response response = new Response();
         try {
-            TransactionDetailDTO result = transactionDetailService.saveTransactionDetail(dto);
+            TransactionDetail result = transactionDetailService.saveTransactionDetail(dto);
             response.setAuto(result);
             response.setStatus(HttpStatus.CREATED);
         } catch (Exception e) {
@@ -189,11 +189,11 @@ public class TransactionController {
         ) {
             Map<String, Object> result = transactionService.getDataForCSVReport(clienteDNI, startDate, endDate);
             csvPrinter.printRecord("DNI:", clienteDNI);
-            csvPrinter.printRecord("Customer:", ((CustomerDTO) result.get("customer")).getName());
+            csvPrinter.printRecord("Customer:", ((Customer) result.get("customer")).getName());
             csvPrinter.printRecord("Date range:", startDate.toString().concat(" to ").concat(endDate.toString()));
             csvPrinter.printRecord();
             csvPrinter.printRecord(csvHeader);
-            for (ReportDetailVO row : (List<ReportDetailVO>) result.get("detail"))
+            for (ReportDetailDTO row : (List<ReportDetailDTO>) result.get("detail"))
                 csvPrinter.printRecord(row.getTransactionId(), new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(row.getDate()), row.getStore(), row.getProductCode(), row.getProductName(), row.getPrice(), row.getQuantity(), row.getTotal());
             csvPrinter.flush();
             byteArrayOutputStream = new ByteArrayInputStream(out.toByteArray());
@@ -227,7 +227,7 @@ public class TransactionController {
         return new ResponseEntity<>(response, new HttpHeaders(), HttpStatus.OK);
     }
 
-    @ApiOperation("Report of numbers of transactions group by store and date")
+    @ApiOperation("Report of numbers of transactions group by store and product")
     @GetMapping(value = "reports/getSoldByStoreAndProduct")
     public ResponseEntity getSoldByStoreAndProduct() {
         Response response = new Response();

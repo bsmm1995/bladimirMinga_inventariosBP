@@ -1,4 +1,4 @@
-package com.example.inventariobp.model.vo;
+package com.example.inventariobp.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductVO {
+public class ProductDTO {
     private String cod;
     private String name;
 }
