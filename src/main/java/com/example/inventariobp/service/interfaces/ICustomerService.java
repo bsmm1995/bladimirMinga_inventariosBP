@@ -11,8 +11,6 @@ public interface ICustomerService {
 
     Optional<Customer> getCustomer(Long id);
 
-    Optional<Customer> getCustomerByDNI(String dni);
-
     List<Customer> getAllCustomers();
 
     Customer saveCustomer(Customer dto);

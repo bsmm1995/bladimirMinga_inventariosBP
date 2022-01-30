@@ -1,8 +1,8 @@
 package com.example.inventariobp.controller;
 
 import com.example.inventariobp.model.Product;
-import com.example.inventariobp.model.dto.Response;
 import com.example.inventariobp.model.dto.ProductDTO;
+import com.example.inventariobp.model.dto.Response;
 import com.example.inventariobp.service.interfaces.IProductService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

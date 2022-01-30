@@ -1,10 +1,12 @@
 package com.example.inventariobp.service.interfaces;
 
 import com.example.inventariobp.model.TransactionDetail;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public interface ITransactionDetailService {
 
     Optional<TransactionDetail> getTransactionDetail(Long id);

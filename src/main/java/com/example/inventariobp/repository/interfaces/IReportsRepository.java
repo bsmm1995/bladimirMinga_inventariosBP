@@ -9,7 +9,7 @@ import java.util.Map;
 
 @Repository
 public interface IReportsRepository {
-    Map<String, Object> getDataForCSVReport(String clienteDNI, Date startDate, Date endDate);
+    List<Object[]> getDataForCSVReport(Long clienteId, Date startDate, Date endDate);
 
     List<Object[]> getSoldByStoreAndProduct();
 

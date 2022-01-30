@@ -21,11 +21,6 @@ public class CustomerService implements ICustomerService {
     }
 
     @Override
-    public Optional<Customer> getCustomerByDNI(String dni) {
-        return customerRepository.findByDni(dni);
-    }
-
-    @Override
     public List<Customer> getAllCustomers() {
         return customerRepository.findAll();
     }

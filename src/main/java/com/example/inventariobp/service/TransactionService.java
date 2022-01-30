@@ -1,7 +1,9 @@
 package com.example.inventariobp.service;
 
+import com.example.inventariobp.model.Customer;
 import com.example.inventariobp.model.Transaction;
 import com.example.inventariobp.model.dto.ReportDetailDTO;
+import com.example.inventariobp.repository.interfaces.ICustomerRepository;
 import com.example.inventariobp.repository.interfaces.IReportsRepository;
 import com.example.inventariobp.repository.interfaces.ITransactionRepository;
 import com.example.inventariobp.service.interfaces.ITransactionService;
@@ -18,6 +20,7 @@ public class TransactionService implements ITransactionService {
 
     private final ITransactionRepository transactionRepository;
     private final IReportsRepository transactionComplementaryRepository;
+    private final ICustomerRepository customerRepository;
 
     @Override
     public Optional<Transaction> getTransaction(Long id) {
@@ -42,13 +45,24 @@ public class TransactionService implements ITransactionService {
 
     @Override
     public Map<String, Object> getDataForCSVReport(String clienteDNI, Date startDate, Date endDate) {
-        Map<String, Object> resultMap = transactionComplementaryRepository.getDataForCSVReport(clienteDNI, startDate, endDate);
-        List<Object[]> results = (List<Object[]>) resultMap.get("detail");
+
+        Optional<Customer> customer = customerRepository.findByDni(clienteDNI);
+
+        if (!customer.isPresent())
+            throw new IllegalStateException(String.format("Customer with DNI %s does not exist", clienteDNI));
+
+        if (startDate.equals(endDate) || startDate.after(endDate))
+            throw new IllegalStateException("The start date cannot be greater than or equal to the end date");
+
+        Map<String, Object> resultMap = new HashMap<>();
+
+        List<Object[]> results = transactionComplementaryRepository.getDataForCSVReport(customer.get().getId(), startDate, endDate);
         List<ReportDetailDTO> list = results.stream()
                 .map(result -> new ReportDetailDTO(((BigInteger) result[0]).longValue(), (Date) result[1],
                         (String) result[2], (String) result[3], (String) result[4], (Double) result[5], (Double) result[6], (Double) result[7]))
                 .collect(Collectors.toList());
 
+        resultMap.put("customer", customer.get());
         resultMap.put("detail", list);
 
         return resultMap;

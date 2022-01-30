@@ -28,7 +28,7 @@ public class StoreService implements IStoreService {
     private final IStoreProductRepository storeProductRepository;
     private ManageMock manageMock;
 
-    public StoreService(IStoreRepository storeRepository, ICustomerRepository customerRepository, IProductService productService, ITransactionService transactionService, ITransactionDetailService transactionDetailService, IStoreProductRepository storeProductRepository){
+    public StoreService(IStoreRepository storeRepository, ICustomerRepository customerRepository, IProductService productService, ITransactionService transactionService, ITransactionDetailService transactionDetailService, IStoreProductRepository storeProductRepository) {
         this.storeRepository = storeRepository;
         this.customerRepository = customerRepository;
         this.productService = productService;

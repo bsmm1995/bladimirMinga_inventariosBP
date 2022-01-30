@@ -1,12 +1,14 @@
 package com.example.inventariobp.service.interfaces;
 
 import com.example.inventariobp.model.Transaction;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+@Service
 public interface ITransactionService {
 
     Optional<Transaction> getTransaction(Long id);

@@ -8,10 +8,8 @@ import com.example.inventariobp.service.interfaces.IStoreProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.math.BigInteger;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -27,11 +25,6 @@ public class StoreProductService implements IStoreProductService {
 
     @Override
     public List<Product> getAllProductsByStore(Long storeID) {
-//        List<Product> results = reportsRepository.getAllProductsByStore(storeID);
-//        return results
-//                .stream()
-//                .map(result -> new Product(((BigInteger) result[0]).longValue(), (String) result[1], (String) result[2], (Double) result[3], (Double) result[4]))
-//                .collect(Collectors.toList());
         return reportsRepository.getAllProductsByStore(storeID);
     }
 
