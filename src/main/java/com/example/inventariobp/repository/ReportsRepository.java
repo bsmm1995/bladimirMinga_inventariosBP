@@ -1,6 +1,6 @@
 package com.example.inventariobp.repository;
 
-import com.example.inventariobp.model.Product;
+import com.example.inventariobp.data.Product;
 import com.example.inventariobp.repository.interfaces.IReportsRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;

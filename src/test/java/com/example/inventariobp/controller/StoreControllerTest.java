@@ -1,7 +1,7 @@
 package com.example.inventariobp.controller;
 
-import com.example.inventariobp.model.Store;
-import com.example.inventariobp.model.dto.Response;
+import com.example.inventariobp.data.Store;
+import com.example.inventariobp.data.dto.Response;
 import com.example.inventariobp.repository.interfaces.IStoreRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

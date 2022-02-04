@@ -1,8 +1,8 @@
 package com.example.inventariobp.service;
 
-import com.example.inventariobp.model.Customer;
-import com.example.inventariobp.model.Transaction;
-import com.example.inventariobp.model.dto.ReportDetailDTO;
+import com.example.inventariobp.data.Customer;
+import com.example.inventariobp.data.Transaction;
+import com.example.inventariobp.data.dto.ReportDetailDTO;
 import com.example.inventariobp.repository.interfaces.ICustomerRepository;
 import com.example.inventariobp.repository.interfaces.IReportsRepository;
 import com.example.inventariobp.repository.interfaces.ITransactionRepository;

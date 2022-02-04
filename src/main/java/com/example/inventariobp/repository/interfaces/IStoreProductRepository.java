@@ -1,6 +1,6 @@
 package com.example.inventariobp.repository.interfaces;
 
-import com.example.inventariobp.model.StoreProduct;
+import com.example.inventariobp.data.StoreProduct;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

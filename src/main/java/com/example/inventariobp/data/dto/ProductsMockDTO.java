@@ -1,6 +1,6 @@
-package com.example.inventariobp.model.dto;
+package com.example.inventariobp.data.dto;
 
-import com.example.inventariobp.model.Product;
+import com.example.inventariobp.data.Product;
 import lombok.Getter;
 import lombok.Setter;
 

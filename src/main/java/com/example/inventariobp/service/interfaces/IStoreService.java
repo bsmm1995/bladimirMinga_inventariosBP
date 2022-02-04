@@ -1,7 +1,7 @@
 package com.example.inventariobp.service.interfaces;
 
-import com.example.inventariobp.model.Store;
-import com.example.inventariobp.model.dto.OrderDTO;
+import com.example.inventariobp.data.Store;
+import com.example.inventariobp.data.dto.OrderDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.example.inventariobp.model;
+package com.example.inventariobp.data;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

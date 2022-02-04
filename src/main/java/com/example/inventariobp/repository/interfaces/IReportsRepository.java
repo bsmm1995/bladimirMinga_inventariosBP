@@ -1,11 +1,10 @@
 package com.example.inventariobp.repository.interfaces;
 
-import com.example.inventariobp.model.Product;
+import com.example.inventariobp.data.Product;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 @Repository
 public interface IReportsRepository {

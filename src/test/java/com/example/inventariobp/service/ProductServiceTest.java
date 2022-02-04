@@ -1,8 +1,8 @@
 package com.example.inventariobp.service;
 
 import com.example.inventariobp.controller.ProductController;
-import com.example.inventariobp.model.Product;
-import com.example.inventariobp.model.dto.Response;
+import com.example.inventariobp.data.Product;
+import com.example.inventariobp.data.dto.Response;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

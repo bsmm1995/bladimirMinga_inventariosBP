@@ -1,6 +1,6 @@
 package com.example.inventariobp.service;
 
-import com.example.inventariobp.model.TransactionDetail;
+import com.example.inventariobp.data.TransactionDetail;
 import com.example.inventariobp.repository.interfaces.ITransactionDetailRepository;
 import com.example.inventariobp.service.interfaces.ITransactionDetailService;
 import lombok.AllArgsConstructor;

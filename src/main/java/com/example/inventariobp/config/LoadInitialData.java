@@ -1,6 +1,6 @@
 package com.example.inventariobp.config;
 
-import com.example.inventariobp.model.*;
+import com.example.inventariobp.data.*;
 import com.example.inventariobp.repository.interfaces.*;
 import com.example.inventariobp.service.complementary.ManageMock;
 import org.springframework.boot.CommandLineRunner;

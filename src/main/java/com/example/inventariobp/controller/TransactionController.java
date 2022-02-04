@@ -1,10 +1,10 @@
 package com.example.inventariobp.controller;
 
-import com.example.inventariobp.model.Customer;
-import com.example.inventariobp.model.Transaction;
-import com.example.inventariobp.model.TransactionDetail;
-import com.example.inventariobp.model.dto.ReportDetailDTO;
-import com.example.inventariobp.model.dto.Response;
+import com.example.inventariobp.data.Customer;
+import com.example.inventariobp.data.Transaction;
+import com.example.inventariobp.data.TransactionDetail;
+import com.example.inventariobp.data.dto.ReportDetailDTO;
+import com.example.inventariobp.data.dto.Response;
 import com.example.inventariobp.service.interfaces.ITransactionDetailService;
 import com.example.inventariobp.service.interfaces.ITransactionService;
 import io.swagger.annotations.Api;

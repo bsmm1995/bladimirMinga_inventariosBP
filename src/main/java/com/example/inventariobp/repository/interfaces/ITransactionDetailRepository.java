@@ -1,6 +1,6 @@
 package com.example.inventariobp.repository.interfaces;
 
-import com.example.inventariobp.model.TransactionDetail;
+import com.example.inventariobp.data.TransactionDetail;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

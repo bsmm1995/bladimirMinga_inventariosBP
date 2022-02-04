@@ -1,7 +1,7 @@
 package com.example.inventariobp.service.complementary;
 
-import com.example.inventariobp.model.*;
-import com.example.inventariobp.model.dto.ProductsMockDTO;
+import com.example.inventariobp.data.*;
+import com.example.inventariobp.data.dto.ProductsMockDTO;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;

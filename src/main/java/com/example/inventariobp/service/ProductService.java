@@ -1,7 +1,7 @@
 package com.example.inventariobp.service;
 
-import com.example.inventariobp.model.Product;
-import com.example.inventariobp.model.dto.ProductDTO;
+import com.example.inventariobp.data.Product;
+import com.example.inventariobp.data.dto.ProductDTO;
 import com.example.inventariobp.repository.interfaces.IProductRepository;
 import com.example.inventariobp.service.interfaces.IProductService;
 import com.example.inventariobp.utils.Helpers;

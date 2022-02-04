@@ -1,4 +1,4 @@
-package com.example.inventariobp.model.dto;
+package com.example.inventariobp.data.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
