@@ -1,13 +1,11 @@
 package com.example.inventariobp.model.dto;
 
 import com.example.inventariobp.model.Product;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.util.List;
 
-@Getter
-@Setter
+@Data
 public class ProductsMockDTO {
     private List<Product> prods;
 }

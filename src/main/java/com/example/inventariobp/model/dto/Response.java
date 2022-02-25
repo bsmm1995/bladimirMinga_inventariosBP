@@ -1,13 +1,11 @@
 package com.example.inventariobp.model.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import org.springframework.http.HttpStatus;
 
+@Data
 @AllArgsConstructor
-@Getter
-@Setter
 public class Response<T> {
     private HttpStatus status;
     private String message;
